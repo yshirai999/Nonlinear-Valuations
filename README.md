@@ -15,8 +15,8 @@
   - A valuation range that is too large likely implies that we miss a chance to trade
   - If too small on the other hand we may not properly take into account all the possible scenarios.
 
-- The purpose of this research is threefold: we
-  - propose a conitnuous time nonlinear valuation model;
+- In this research, we
+  - propose a continuous time nonlinear valuation model;
   - calibrate it to options on SPY
   - estimate it for each of 9 sector ETFs and SPY based on their historical 5-day high and low prices;
   - Implement a trading strategy that maximizes the lower value of the portfolio.

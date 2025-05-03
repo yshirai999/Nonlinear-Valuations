@@ -21,4 +21,4 @@
   - estimate it for each of 9 sector ETFs and SPY based on their historical 5-day high and low prices;
   - Implement a trading strategy that maximizes the lower value of the portfolio.
 
-For more mathematical details, as well as the calibration and estimation part, see the accompanying paper at https://www.aimsciences.org/article/doi/10.3934/fmf.2023021
+For more mathematical details, as well as the calibration and estimation part, see the accompanying paper at [AIMS Sciences](https://www.aimsciences.org/article/doi/10.3934/fmf.2023021)

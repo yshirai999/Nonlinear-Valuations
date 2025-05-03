@@ -1,0 +1,26 @@
+%% Correlation
+
+%clear
+%clc
+%close all
+
+%% Load data
+
+YPD = load('ConvexPCthetaPD_2020');
+YCARA = load('ConvexPCthetaCARA_2020');
+YCRRA = load('ConvexPCthetaCRRA_2020');
+YMD = load('ConvexPCthetaMD_2020');
+
+YPD = YPD.theta;
+YMD = YMD.theta;
+YCRRA = YCRRA.theta;
+YCARA = YCARA.theta;
+rho_CRRACARA = corr(YCRRA,YCARA);
+rho_CRRAMD = corr(YCRRA,YMD);
+rho_CARAMD = corr(YCARA,YMD);
+rho_CARAPD = corr(YCARA,YPD);
+rho_CRRAPD = corr(YCRRA,YPD);
+rho_MDPD = corr(YPD,YMD);
+
+fprintf('CRRACARA = %d, CRRAMD = %d, CARAMD = %d\n', rho_CRRACARA,rho_CRRAMD,rho_CARAMD)
+fprintf('CARAPD = %d, CRRAPD = %d, MDPD = %d\n', rho_CARAPD,rho_CRRAPD,rho_MDPD)

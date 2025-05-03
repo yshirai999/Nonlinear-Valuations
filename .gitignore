@@ -1,0 +1,22 @@
+# Ignore config.m
+DataProcessing/config.m
+Data/*
+
+# Allow BGP files
+!Data/BGP*.mat
+
+# Allow Monetary Base files
+!Data/MonetaryBase*.mat
+
+# Ignore config.m
+DataProcessing/config.m
+
+# Ignore MATLAB autosave files
+*.asv
+
+# Ignore temporary files
+*.tmp
+*.log
+
+# Ignore backup files
+*.bak

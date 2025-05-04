@@ -50,7 +50,7 @@ For all the mathematical details, as well as the calibration and estimation part
 - Calibration is performed based on options on SPY and for three different models:
   - BG2BG, which assumes that the upper, mid and lower prices follow exponential bilateral gamma (BG) processes
   - CGMY2CGMY, which assumes that the upper, mid and lower prices follow exponential CGMY processes
-  - GcgammaDouble, which assumes that mid price is an exponential BG process and the upper and lower prices are exponential Levy processes with Levy measures: $\bar{\nu}(dy) = (1+\bar{\psi}_{\Gamma}(y))\nu(dy), \quad \underline{\nu}(dy) = (1+\underline{\psi}_{\Gamma}(y))\nu(dy) $
+  - GcgammaDouble, which assumes that mid price is an exponential BG process and the upper and lower prices are exponential Levy processes with Levy measures: $\bar{\nu}(dy) = (1+\bar{\psi}(y))\nu(dy), \quad \underline{\nu}(dy) = (1+\underline{\psi}(y))\nu(dy) $
   where $\nu(dy)$ is the BG density, and $\underline{\psi}$ and $\overline{\psi}$ are given in proposition 4.1 of the accompanying paper
 
 - The main goals of this calibration exercise are:

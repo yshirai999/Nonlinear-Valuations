@@ -4,11 +4,12 @@ clc
 close all
 
 %% Load data
-dat = load('ZC_2008_30d.mat');
+DataPath = NonlinearPricing.Functions.getPath('Data');
+dat = load(fullfile(DataPath, 'ZC_2008_30d.mat'));
 R = dat.R;
-dat = load('SPY_C_T1M_MONEY10_2020.mat');
+dat = load(fullfile(DataPath, 'SPY_C_T1M_MONEY10_2020.mat'));
 C = dat.O;
-dat = load('SPY_P_T1M_MONEY10_2020.mat');
+dat = load(fullfile(DataPath, 'SPY_P_T1M_MONEY10_2020.mat'));
 P = dat.O;
 dates = unique(C(:,2));
 ndates = length(dates);
@@ -199,6 +200,7 @@ for d = 1%:ndates
 end
 
 %% Visualization
+vizPath = NonlinearPricing.Functions.getPath('Visualization');
 
 prompt = 'Do you want to visualize results? Y/N: ';
 s = input(prompt, 's');
@@ -228,10 +230,9 @@ if s
     plot(datesNum(~ErrMaxoutind),ErrMaxout(:,2))
     legend('Upper Valuation Error','Lower Valuation Error','interpreter','latex')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
     str=strcat('CalibrationError_CGMY2CGMY');
     fname=str;
-    saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'epsc'); % Updated to save using vizPath
     hold off
     
     fprintf('\nMedian Errors: Upper Call = %d, Upper Put = %d, Lower Call = %d, Lower Put = %d\n\n',...
@@ -249,10 +250,9 @@ if s
     plot(datesNum,r)
     legend('$RC^U$','$RC^L$','$r$','interpreter','latex')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
     str=strcat('RC_RiskNeutral_CGMY2CGMY');
     fname=str;
-    saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'epsc'); % Updated to save using vizPath
     hold off
 end
 
@@ -275,12 +275,13 @@ else
 end
 
 if s
-    save('BG_CGMY2CGMY','X')
-    %save('RC_CGMY2CGMY','RC')
-    save('ErrU_CGMY2CGMY','ErrU')
-    save('ErrL_CGMY2CGMY','ErrL')
-    save('Range_CGMY2CGMY','Range')
-    save('rf_2008_30d','r')
+    varArchivePath = NonlinearPricing.Functions.getVarArchivePath();
+    save(fullfile(varArchivePath, 'BG_CGMY2CGMY'),'X')
+    %save(fullfile(varArchivePath, 'RC_CGMY2CGMY'),'RC')
+    save(fullfile(varArchivePath, 'ErrU_CGMY2CGMY'),'ErrU')
+    save(fullfile(varArchivePath, 'ErrL_CGMY2CGMY'),'ErrL')
+    save(fullfile(varArchivePath, 'Range_CGMY2CGMY'),'Range')
+    save(fullfile(varArchivePath, 'rf_2008_30d'),'r')
     fprintf('Results were saved, and previous ones overwritten')
 end
 

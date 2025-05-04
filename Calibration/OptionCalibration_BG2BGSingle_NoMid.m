@@ -4,11 +4,12 @@ clc
 close all
 
 %% Load data
-dat = load('ZC_2008_30d.mat');
+DataPath = NonlinearPricing.Functions.getPath('Data');
+dat = load(fullfile(DataPath,'ZC_2008_30d.mat'));
 R = dat.R;
-dat = load('SPY_C_T1M_MONEY10_2020.mat');
+dat = load(fullfile(DataPath,'SPY_C_T1M_MONEY10_2020.mat'));
 C = dat.O;
-dat = load('SPY_P_T1M_MONEY10_2020.mat');
+dat = load(fullfile(DataPath,'SPY_P_T1M_MONEY10_2020.mat'));
 P = dat.O;
 dates = unique(C(:,2));
 ndates = length(dates);
@@ -124,6 +125,7 @@ fprintf('param0 = [%d,%d,%d,%d];\n', bp,cp,bn,cn,bpU,bnU,bpL,bnL);
 fprintf('param0 = [%d,%d];\n', bpU,bnU);
 
 %% Visualization
+vizPath = NonlinearPricing.Functions.getPath('Visualization');
 
 figure
 hold on
@@ -134,10 +136,9 @@ scatter([K_P;K_C]/K_0-1,([A_P;A_C]-[B_P;B_C])./[(A_P+B_P)/2;(A_C+B_C)/2],'o');
 legend('Model Implied Bid-Ask spread','Observed Bid-Ask spread','Interpreter','latex')
 %xlabel('Moneyness')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('BidAskSpread_BG2BGDouble');
 fname=str;
-%saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 [callU{1:length(K_C)}] = deal('Upper');
@@ -178,10 +179,9 @@ scatter3(K_P/K_0-1,putL,P_Mod_L,'*','black')
 view(171,18)
 xlabel('Moneyness')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('CallScatter_BG2BGDouble');
 fname=str;
-%saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 figure
@@ -197,10 +197,9 @@ scatter3(K_P/K_0-1,putL,P_Mod_L,'*','black')
 view(189,9)
 xlabel('Moneyness')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('PutScatter_BG2BGDouble');
 fname=str;
-%saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 %prompt = 'Do you want to visualize results? Y/N: ';
@@ -232,10 +231,9 @@ if s
     plot(datesNum(~ErrMaxoutind),ErrMaxout(:,2))
     legend('Upper Valuation Error','Lower Valuation Error','interpreter','latex')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
     str=strcat('CalibrationError_BG2BGDouble');
     fname=str;
-    %saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'epsc');
     hold off
     
     fprintf('\nMedian Errors: Upper Call = %d, Upper Put = %d, Lower Call = %d, Lower Put = %d\n\n',...
@@ -253,10 +251,9 @@ if s
     plot(datesNum,r)
     legend('$RC^U$','$RC^L$','$r$','interpreter','latex')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
     str=strcat('RC_RiskNeutral_BG2BGDouble');
     fname=str;
-    %saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'epsc');
     hold off
 end
 
@@ -280,12 +277,13 @@ else
 end
 
 if s
-    save('BG_BG2BGDouble','X')
-    %save('RC_BG2BGDouble','RC')
-    save('ErrU_BG2BGDouble','ErrU')
-    save('ErrL_BG2BGDouble','ErrL')
-    save('Range_BG2BGDouble','Range')
-    save('rf_2008_30d','r')
+    varArchivePath = NonlinearPricing.Functions.getVarArchivePath();
+    save(fullfile(varArchivePath, 'BG_BG2BGDouble'),'X')
+    %save(fullfile(varArchivePath, 'RC_BG2BGDouble'),'RC')
+    save(fullfile(varArchivePath, 'ErrU_BG2BGDouble'),'ErrU')
+    save(fullfile(varArchivePath, 'ErrL_BG2BGDouble'),'ErrL')
+    save(fullfile(varArchivePath, 'Range_BG2BGDouble'),'Range')
+    save(fullfile(varArchivePath, 'rf_2008_30d'),'r')
     fprintf('Results were saved, and previous ones overwritten')
 end
 

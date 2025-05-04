@@ -4,12 +4,13 @@ clc
 close all
 
 %% Load data
+DataPath = NonlinearPricing.Functions.getPath('Data');
 SY = 20;
-dat = load('ZC_2008_30d.mat');
+dat = load(fullfile(DataPath,'ZC_2008_30d.mat'));
 R = dat.R;
-dat = load(strcat('SPY_C_T1M_MONEY10_20',num2str(SY,'%02.f'),'.mat'));
+dat = load(fullfile(DataPath,strcat('SPY_C_T1M_MONEY10_20',num2str(SY,'%02.f'),'.mat')));
 C = dat.O;
-dat = load(strcat('SPY_P_T1M_MONEY10_20',num2str(SY,'%02.f'),'.mat'));
+dat = load(fullfile(DataPath,strcat('SPY_P_T1M_MONEY10_20',num2str(SY,'%02.f'),'.mat')));
 P = dat.O;
 dates = unique(C(:,2));
 ndates = length(dates);
@@ -256,6 +257,7 @@ else
 end
 
 %% Visualization
+vizPath = NonlinearPricing.Functions.getPath('Visualization');
 
 figure
 hold on
@@ -265,10 +267,9 @@ scatter([K_P;K_C]/K_0-1,([P_Mod_U;C_Mod_U]-[P_Mod_L;C_Mod_L])./[P_Mod_M;C_Mod_M]
 scatter([K_P;K_C]/K_0-1,([A_P;A_C]-[B_P;B_C])./[(A_P+B_P)/2;(A_C+B_C)/2],'o'); %plot(K/K_0-1,A-B)
 legend('Model Implied Bid-Ask spread','Observed Bid-Ask spread','Interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('BidAskSpread_GcgammaDouble',num2str(s1),num2str(s2));
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
         
 [callU{1:length(K_C)}] = deal('Upper');
@@ -291,10 +292,9 @@ scatter3(K_C/K_0-1,callL,C_Mod_L,'*','black')
 view(171,18)
 %xlabel('Moneyness')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('CallScatter_GcgammaDouble',num2str(s1),num2str(s2));
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 [putU{1:length(K_P)}] = deal('Upper');
@@ -323,10 +323,9 @@ scatter3(K_P/K_0-1,putL,P_Mod_L,'*','black')
 view(189,9)
 %xlabel('Moneyness')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('Scatter_GcgammaDouble',num2str(s1),num2str(s2));
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc'); % Updated to use vizPath
 hold off    
 
 figure
@@ -342,10 +341,9 @@ scatter3(K_P/K_0-1,putL,P_Mod_L,'*','black')
 view(189,9)
 %xlabel('Moneyness')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('PutScatter_GcgammaDouble',num2str(s1),num2str(s2));
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc'); % Updated to use vizPath
 hold off    
 
 prompt = 'Do you want to visualize results? Y/N: ';
@@ -376,10 +374,9 @@ if s
     plot(datesNum(~ErrMaxoutind),ErrMaxout(:,2))
     legend('Upper Valuation Error','Lower Valuation Error','interpreter','latex')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
     str=strcat('CalibrationError_GcgammaDouble',num2str(s1),num2str(s2));
     fname=str;
-    saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'epsc'); % Updated to use vizPath
     hold off
     
     fprintf('\nMedian Errors: Upper Call = %d, Upper Put = %d, Lower Call = %d, Lower Put = %d\n\n',...
@@ -397,10 +394,9 @@ if s
     plot(datesNum,r)
     legend('$RC^U$','$RC^L$','$r$','interpreter','latex')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
     str=strcat('RC_RiskNeutral_GcgammaDouble',num2str(s1),num2str(s2));
     fname=str;
-    saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'epsc'); % Updated to use vizPath
     hold off
 end
 
@@ -423,12 +419,13 @@ else
 end
 
 if s
-    save(strcat('BG_GcgammaDouble',num2str(s1),num2str(s2)),'X')
-    save(strcat('RC_GcgammaDouble',num2str(s1),num2str(s2)),'RC')
-    save(strcat('ErrU_GcgammaDouble',num2str(s1),num2str(s2)),'ErrU')
-    save(strcat('ErrL_GcgammaDouble',s1,s2),'ErrL')
-    save(strcat('Range_GcgammaDouble',num2str(s1),num2str(s2)),'Range')
-    save(strcat('rf_20',num2str(SY,'%02.f'),'_30d',num2str(s1),num2str(s2)),'r')
+    varArchivePath = NonlinearPricing.Functions.getVarArchivePath();
+    save(fullfile(varArchivePath, strcat('BG_GcgammaDouble',num2str(s1),num2str(s2))),'X')
+    save(fullfile(varArchivePath, strcat('RC_GcgammaDouble',num2str(s1),num2str(s2))),'RC')
+    save(fullfile(varArchivePath, strcat('ErrU_GcgammaDouble',num2str(s1),num2str(s2))),'ErrU')
+    save(fullfile(varArchivePath, strcat('ErrL_GcgammaDouble',num2str(s1),num2str(s2))),'ErrL')
+    save(fullfile(varArchivePath, strcat('Range_GcgammaDouble',num2str(s1),num2str(s2))),'Range')
+    save(fullfile(varArchivePath, strcat('rf_20',num2str(SY,'%02.f'),'_30d',num2str(s1),num2str(s2))),'r')
     fprintf('Results were saved, and previous ones overwritten')
 end
 

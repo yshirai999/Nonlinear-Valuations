@@ -4,7 +4,7 @@ clc
 close all
 
 %% Load data
-DataPath = NonlinearPricing.Functions.getPath('Data');
+DataPath = getPath('Data');
 dat = load(fullfile(DataPath, 'ZC_2008_30d.mat'));
 R = dat.R;
 dat = load(fullfile(DataPath, 'SPY_C_T1M_MONEY10_2020.mat'));
@@ -126,8 +126,9 @@ for d = 1%:ndates
     fprintf('# of Options Calibrated to = %d; flagCGMY = %d; flagD = %d;\n', Range(d), exitflagCGMY, exitflagD)
     %fprintf('RC_U = %d; RC_L = %d \n', RC(d,1),RC(d,2))
     fprintf('cputime = %d\n\n', cputime)
-    
+
     if d == 1
+        vizPath = getPath('Visualization');
         figure
         hold on
         grid on
@@ -137,10 +138,9 @@ for d = 1%:ndates
         legend('Model Implied Bid-Ask spread','Observed Bid-Ask spread','Interpreter','latex')
         %xlabel('Moneyness')
         set(gca,'TickLabelInterpreter','latex')
-        fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
         str=strcat('BidAskSpread_CGMY2CGMY');
         fname=str;
-        saveas(gcf, fullfile(fpath, fname), 'epsc');
+        saveas(gcf, fullfile(vizPath, fname), 'pdf');
         hold off
         
         [callU{1:length(K_C)}] = deal('Upper');
@@ -163,10 +163,9 @@ for d = 1%:ndates
         view(171,18)
         xlabel('Moneyness')
         set(gca,'TickLabelInterpreter','latex')
-        fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
         str=strcat('CallScatter_CGMY2CGMY');
         fname=str;
-        saveas(gcf, fullfile(fpath, fname), 'epsc');
+        saveas(gcf, fullfile(vizPath, fname), 'pdf');
         hold off
         
         [putU{1:length(K_P)}] = deal('Upper');
@@ -189,10 +188,9 @@ for d = 1%:ndates
         view(171,18)
         xlabel('Moneyness')
         set(gca,'TickLabelInterpreter','latex')
-        fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
         str=strcat('PutScatter_CGMY2CGMY');
         fname=str;
-        saveas(gcf, fullfile(fpath, fname), 'epsc');
+        saveas(gcf, fullfile(vizPath, fname), 'pdf');
         hold off
     end
     
@@ -200,7 +198,7 @@ for d = 1%:ndates
 end
 
 %% Visualization
-vizPath = NonlinearPricing.Functions.getPath('Visualization');
+vizPath = getPath('Visualization');
 
 prompt = 'Do you want to visualize results? Y/N: ';
 s = input(prompt, 's');
@@ -275,7 +273,7 @@ else
 end
 
 if s
-    varArchivePath = NonlinearPricing.Functions.getVarArchivePath();
+    varArchivePath = getPath('VarArchive');
     save(fullfile(varArchivePath, 'BG_CGMY2CGMY'),'X')
     %save(fullfile(varArchivePath, 'RC_CGMY2CGMY'),'RC')
     save(fullfile(varArchivePath, 'ErrU_CGMY2CGMY'),'ErrU')

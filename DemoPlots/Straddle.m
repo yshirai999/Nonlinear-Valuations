@@ -83,7 +83,7 @@ for j = 1:M
             R ( i ) = RfunDistMC ( i, X, uj, bp, cp, bn, cn, w, gamma, aw, bw, Yp, Yn, Nsim );        
         end
         if j == M
-        RC ( i ) = R ( i ) - Rfun ( i, dx, X, uj, bp, cp, bn, cn );
+            RC ( i ) = R ( i ) - Rfun ( i, dx, X, uj, bp, cp, bn, cn );
         end
     end
         uj = uj + dt * R';
@@ -97,6 +97,8 @@ for j = 1:M
 end
 
 %% Visualization
+vizPath = getPath('Visualization');
+
 % Comparison
 S = exp(X);
 
@@ -110,9 +112,8 @@ plot ( S, abs(uj) );
 % plot ( S, abs(u ( 12, : )) );
 % plot ( S, abs(u ( 1, : )) );
 %legend('$t = 0$', '$t = 0.25T$', '$t = 0.5T$', '$t = 0.75T$', '$t = T$', 'interpreter', 'latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 fname = strcat('Straddle',num2str(N),num2str(M));
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 hold off
 
 figure
@@ -122,9 +123,8 @@ mi = min ( min ( abs( u ) ) );
 contourf ( S, [0 : dt : T]', abs( u ), linspace ( mi, ma, 20 ) );
 %colormap(gray)
 colorbar
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 fname = strcat('StraddleContourf',num2str(N),num2str(M));
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 hold off
 
 % Risk Charge
@@ -134,8 +134,7 @@ box on
 grid on
 plot(S,RC)
 hold off
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 fname = strcat('Driver_M',num2str(N),num2str(M));
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 
 %close all

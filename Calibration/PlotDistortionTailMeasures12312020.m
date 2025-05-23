@@ -61,7 +61,7 @@ Gammam = (MD(4)/MD(1))*exp(-MD(1)*num);
 fprintf('int_0^{infty} Gamma_-(y)dy = %d\n', sum(Gammap)*Delta)
 fprintf('int{-infty}^0 Gamma_-(y)dy = %d\n', sum(Gammam)*Delta)
 
-VizPath=NonlinearPricing.Functions.getPath('Visualization');
+VizPath=getPath('Visualization');
 
 figure
 hold on

@@ -4,7 +4,7 @@ clc
 close all
 
 %% Load data
-DataPath = NonlinearPricing.Functions.getPath('Data');
+DataPath = getPath('Data');
 dat = load(fullfile(DataPath,'ZC_2008_30d.mat'));
 R = dat.R;
 dat = load(fullfile(DataPath,'SPY_C_T1M_MONEY10_2020.mat'));
@@ -149,7 +149,7 @@ fprintf('param0 = [%d,%d,%d,%d,%d];\n', bp,cp,bn,bpU,bnU);
 fprintf('param0 = [%d,%d];\n', bpU,bnU);
 
 %% Visualization
-vizPath = NonlinearPricing.Functions.getPath('Visualization');
+vizPath = getPath('Visualization');
 
 figure
 hold on
@@ -301,7 +301,7 @@ else
 end
 
 if s
-    varArchivePath = NonlinearPricing.Functions.getVarArchivePath();
+    varArchivePath = getPath('VarArchive');
     save(fullfile(varArchivePath, 'BG_BG2BGDouble'),'X')
     %save(fullfile(varArchivePath, 'RC_BG2BGDouble'),'RC')
     save(fullfile(varArchivePath, 'ErrU_BG2BGDouble'),'ErrU')

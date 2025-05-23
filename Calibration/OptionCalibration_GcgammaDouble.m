@@ -257,7 +257,7 @@ else
 end
 
 %% Visualization
-vizPath = NonlinearPricing.Functions.getPath('Visualization');
+vizPath = getPath('Visualization');
 
 figure
 hold on

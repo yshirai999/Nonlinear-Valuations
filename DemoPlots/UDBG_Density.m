@@ -44,6 +44,8 @@ psi_L = [- (a*c/(1+gamma)) .* ( (1 - exp(-c*cn*expint(-xn/bn))).^(-gamma/(1+gamm
                          .*  cn .* exp(-c*cn*expint(-xn/bn)+xn/bn) ./ xn,...
                     - b*cp .* exp(-c*cp*expint(xp/bp)-xp/bp) ./ xp]';
 
+vizPath = getPath('Visualization');
+
 figure
 hold on
 grid on
@@ -53,10 +55,9 @@ plot(x,log(k+psi_U),'--',LineWidth=1);
 plot(x,log(k+psi_L),':',LineWidth=1)
 %legend('\bf{Q}','$\overline{\mathbb{Q}}$','$\underline{\mathbb{Q}}$','Interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('DBG_Levy');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 % psi_Un = cn .* exp(-c*cn*expint(-xn/bn)+xn/bn) ./ xn;
@@ -75,10 +76,9 @@ hold off
 % plot(xn,psi_Un,'b');
 % legend('$\psi^U$','','Interpreter','latex')
 % set(gca,'TickLabelInterpreter','latex')
-% fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 % str=strcat('Psi_U');
 % fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% saveas(gcf, fullfile(vizPath, fname), 'epsc');
 % hold off
 % 
 % figure
@@ -89,10 +89,9 @@ hold off
 % plot(xn,psi_Ln,'b');
 % legend('$\psi^L$','','Interpreter','latex')
 % set(gca,'TickLabelInterpreter','latex')
-% fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 % str=strcat('Psi_L');
 % fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% saveas(gcf, fullfile(vizPath, fname), 'epsc');
 % hold off
 
 %% Probability Density
@@ -144,10 +143,9 @@ plot(x(Nmin:Nmax),f_u(Nmin:Nmax),'--',LineWidth=1);
 plot(x(Nmin:Nmax),f_l(Nmin:Nmax),':',LineWidth=1)
 %legend('$\mathbb{Q}$','$\overline{\mathbb{Q}}$','$\underline{\mathbb{Q}}$','Interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('DBG_densities');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 figure
@@ -160,10 +158,9 @@ plot(x(Nmin:Nmax),f_u(Nmin:Nmax)-f(Nmin:Nmax),'-',LineWidth=1);
 plot(x(Nmin:Nmax),f_l(Nmin:Nmax)-f(Nmin:Nmax),'-',LineWidth=1);
 legend('$f_X^U-f_X$','$f_X^L-f_X$','Interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('DBG_densities_Delta');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 % %% Drift

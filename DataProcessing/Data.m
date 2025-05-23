@@ -19,9 +19,7 @@ T = string(zeros(I*J,1));
 X = zeros(n,d);
 M = zeros(n,J);
 
-% Path to the Data folder
-[parentFolder, ~, ~] = fileparts(pwd); % Get the parent folder of the current folder
-dataFolder = fullfile(parentFolder, 'Data'); % Construct the path to the Data folder
+dataFolder = getPath('Data'); % Get the path to the Data folder
 
 for j=1:J
     str = fullfile(dataFolder, strcat('BGP', num2str(j), '.mat'));

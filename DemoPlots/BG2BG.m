@@ -30,9 +30,7 @@ end
 
 %% Visualization
 
-% Dynamically construct the path to the visualization folder
-[parentFolder, ~, ~] = fileparts(pwd); % Get the parent folder of the current folder
-visFolder = fullfile(parentFolder, 'Visualization'); % Path to the Visualization folder
+visFolder = getPath('Visualization'); % Get the path to the Visualization folder
 
 % Ensure the Visualization folder exists
 if ~exist(visFolder, 'dir')

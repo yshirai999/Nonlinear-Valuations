@@ -4,7 +4,8 @@ clc
 close all
 
 %% Load Data
-Y = load('Y');
+dataPath = getPath('Data');
+Y = load(fullfile(dataPath, 'Y'));
 Y = Y.Y;
 
 SY = 10; startdate = strcat('20',num2str(SY,'%02.f'),'0104');
@@ -26,6 +27,7 @@ q = qrandstream('halton',1,'Skip',1e3,'Leap',1e2);
 U = qrand(q,Nsim);
 
 %% Load Data
+varPath = getPath('VarArchive');
 imin = find(Y(:,1)==SD);
 imax = length(Y);
 Delta = 5;
@@ -45,8 +47,8 @@ ai = 0.001;
 
 %(c,gamma,b,a) = (3.642385e+02,9.094947e-13,1.191809e+02,1.445863e-03)
 
-SPYMDGMM = load(strcat('SPYMD',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))); SPYMDGMM = SPYMDGMM.SPYMD;
-SPYMDDM = load(strcat('SPYMD',num2str(SY),'DM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))); SPYMDDM = SPYMDDM.SPYMD;
+SPYMDGMM = load(fullfile(varPath, strcat('SPYMD',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)))); SPYMDGMM = SPYMDGMM.SPYMD;
+SPYMDDM = load(fullfile(varPath, strcat('SPYMD',num2str(SY),'DM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)))); SPYMDDM = SPYMDDM.SPYMD;
 DeltaVec1 = zeros(2,length(imin+5:5:imax));
 DeltaVec2 = zeros(2,length(imin+5:5:imax));
 mu_u = zeros(2,length(imin+5:5:imax));
@@ -98,6 +100,7 @@ end
 %% Visualization
 close all
 
+vizPath = getPath('Visualization');
 DeltaVec1_out = rmoutliers(DeltaVec1,'percentiles',[5,95]);
 DeltaVec2_out = rmoutliers(DeltaVec2,'percentiles',[5,95]);
 
@@ -108,10 +111,9 @@ grid on
 plot([1:1:length(DeltaVec1_out(1,:))],DeltaVec1_out(1,:))
 title('L1 Distance GMM-fDM Lower densities')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('L1_Norm_DeltaLowerDensities');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 
 figure
 hold on
@@ -120,10 +122,9 @@ grid on
 plot([1:1:length(DeltaVec1_out(2,:))],DeltaVec1_out(2,:))
 title('L1 Distance GMM-fDM Upper densities')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('L1_Norm_DeltaUpperDensities');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 
 
 figure
@@ -133,10 +134,9 @@ grid on
 scatter(DeltaVec1_out(1,:),DeltaVec1_out(2,:))
 title('L1 Distance GMM-fDM Upper densities')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('L1_Norm_DeltaDensitiesScatter');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 
 
 figure
@@ -146,10 +146,9 @@ grid on
 plot([1:1:length(DeltaVec2_out(1,:))],DeltaVec2_out(1,:))
 title('L2 Distance GMM-fDM Lower densities')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('L2_Norm_DeltaLowerDensities');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 
 figure
 hold on
@@ -158,10 +157,9 @@ grid on
 plot([1:1:length(DeltaVec2_out(2,:))],DeltaVec2_out(2,:))
 title('L2 Distance GMM-fDM Upper densities')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('L2_Norm_DeltaUpperDensities');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 
 
 figure
@@ -171,10 +169,9 @@ grid on
 scatter(DeltaVec2_out(1,:),DeltaVec2_out(2,:))
 title('L2 Distance GMM-fDM Upper densities')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('L2_Norm_DeltaDensitiesScatter');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 
 %% Table quantiles DeltaVec
 
@@ -243,10 +240,9 @@ plot(dates,muGMM_l_out)
 title('Mean GMM densities')
 legend('Upper','Lower')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('muGMM_Upper');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 
 figure
 hold on
@@ -257,10 +253,9 @@ plot(dates,muDM_l_out)
 title('Mean DM densities')
 legend('Upper','Lower')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('muDM_Lower');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 
 
 %% Visualize Dispersion
@@ -298,10 +293,9 @@ plot(dates,stdGMM_l_out)
 title('Standard Deviation GMM densities')
 legend('Upper','Lower')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('stdGMM_Upper');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 
 figure
 hold on
@@ -312,10 +306,9 @@ plot(dates,stdDM_l_out)
 title('Standard Deviation DM densities')
 legend('Upper','Lower')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('stdDM_Lower');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 
 %% Visualize Kurtosis
 kurGMM_u_out = rmoutliers(kur_u(1,:),'percentiles',[10,90]);
@@ -333,10 +326,9 @@ plot([1:1:length(kurGMM_l_out)],kurGMM_l_out)
 title('Kurtosis GMM densities')
 legend('Upper','Lower')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('KurtosisGMM_Upper');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 
 figure
 hold on
@@ -347,10 +339,9 @@ plot([1:1:length(kurDM_l_out)],kurDM_l_out)
 title('Kurtosis DM densities')
 legend('Upper','Lower')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('KurtosisDM_Lower');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 
 %% Visualize Specific Day
 
@@ -453,11 +444,10 @@ fprintf('i = %d, k = %d: dL = (%d,%d), dU = (%d,%d) \n', i, k, DeltaVec1(2,k),De
         title('Upper Density')
         legend('GMM', 'DM')
         set(gca,'TickLabelInterpreter','latex')
-        fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
         str=strcat('SPY_UpperDensity');
         fname=str;
-        saveas(gcf, fullfile(fpath, fname), 'epsc');
-        
+        saveas(gcf, fullfile(vizPath, fname), 'epsc');
+
         figure
         hold on
         grid on
@@ -467,10 +457,10 @@ fprintf('i = %d, k = %d: dL = (%d,%d), dU = (%d,%d) \n', i, k, DeltaVec1(2,k),De
         title('Difference between GMM and DM Upper Density')
         %legend('GMM', 'DM')
         set(gca,'TickLabelInterpreter','latex')
-        fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
         str=strcat('SPY_UpperDensityDelta');
         fname=str;
-        saveas(gcf, fullfile(fpath, fname), 'epsc');
+        saveas(gcf, fullfile(vizPath, fname), 'epsc');
+
         figure
         hold on
         grid on
@@ -481,10 +471,9 @@ fprintf('i = %d, k = %d: dL = (%d,%d), dU = (%d,%d) \n', i, k, DeltaVec1(2,k),De
         legend('Estimated GMM', 'Estimated DM', 'Empirical','interpreter','latex')
         title('Upper Digital Moments Fitting')
         set(gca,'TickLabelInterpreter','latex')
-        fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
         str=strcat('SPY_UpperGMMFitting');
         fname=str;
-        saveas(gcf, fullfile(fpath, fname), 'epsc');
+        saveas(gcf, fullfile(vizPath, fname), 'epsc');
     end
     
     d1 = norm(fGMM-fDM,1);
@@ -585,11 +574,10 @@ function [d1,d2,muGMM,sigmaGMM,muDM,sigmaDM,kGMM,kDM] = plotL(l,theta,N,yp,yn,pl
         title('Lower Density')
         legend('GMM', 'DM')
         set(gca,'TickLabelInterpreter','latex')
-        fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
         str=strcat('SPY_LowerDensity');
         fname=str;
-        saveas(gcf, fullfile(fpath, fname), 'epsc');
-        
+        saveas(gcf, fullfile(vizPath, fname), 'epsc');
+
         figure
         hold on
         grid on
@@ -599,11 +587,10 @@ function [d1,d2,muGMM,sigmaGMM,muDM,sigmaDM,kGMM,kDM] = plotL(l,theta,N,yp,yn,pl
         title('Difference between GMM and DM Lower Density')
         %legend('GMM', 'DM')
         set(gca,'TickLabelInterpreter','latex')
-        fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
         str=strcat('SPY_LowerDensityDelta');
         fname=str;
-        saveas(gcf, fullfile(fpath, fname), 'epsc');
-    
+        saveas(gcf, fullfile(vizPath, fname), 'epsc');
+
         figure
         hold on
         grid on
@@ -614,10 +601,9 @@ function [d1,d2,muGMM,sigmaGMM,muDM,sigmaDM,kGMM,kDM] = plotL(l,theta,N,yp,yn,pl
         legend('Estimated GMM', 'Estimated DM', 'Empirical','interpreter','latex')
         title('Lower Digital Moments Fitting')
         set(gca,'TickLabelInterpreter','latex')
-        fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
         str=strcat('SPY_LowerGMMFitting');
         fname=str;
-        saveas(gcf, fullfile(fpath, fname), 'epsc');    
+        saveas(gcf, fullfile(vizPath, fname), 'epsc');    
     end
 
     d1 = norm(fGMM-fDM,1);

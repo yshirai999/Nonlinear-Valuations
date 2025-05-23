@@ -57,6 +57,7 @@ for i = 1:length(c)
     sbc = beta(c,cu,cl,alpha);
 end
     
+vizPath = getPath('Visualization');
 figure
 hold on
 plot(c,ebc)
@@ -64,10 +65,9 @@ xlabel('$c$', 'Interpreter', 'latex')
 grid on
 box on
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('EntropicRebate');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 hold off
 
 figure
@@ -77,10 +77,9 @@ xlabel('$c$', 'Interpreter', 'latex')
 grid on
 box on
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('SpectralRebate');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 hold off
 
 

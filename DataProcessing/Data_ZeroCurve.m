@@ -102,14 +102,7 @@ R = [str2double(erase(string(dataU(:,1)), '-')),cell2mat(dataL(:,2)),cell2mat(da
 rs.close();
 WRDS.close();
 
-% Construct the path to the Data folder
-[parentFolder, ~, ~] = fileparts(pwd); % Get the parent folder of the current folder
-dataFolder = fullfile(parentFolder, 'Data'); % Path to the Data folder
-
-% Check if the Data folder exists, if not, create it
-if ~exist(dataFolder, 'dir')
-    mkdir(dataFolder);
-end
+dataFolder = getPath('Data'); % Get the path to the Data folder
 
 % Save the file in the Data folder
 save(fullfile(dataFolder, 'ZC_2008_30d.mat'), 'R');

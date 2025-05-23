@@ -50,14 +50,16 @@ optionspsrch = optimoptions('patternsearch','MaxFunctionEvaluation',5000,'MaxIte
 
 %% Sample Generation
 
+varPath = getPath('VarArchive');
+
 Delta = 252; %lookback period for each estimate
 Nmin = Delta; %date at which estimation can start
 kmax = 252; %sample size at each date
-    
-try 
-    x = load(strcat('xMBGSample',num2str(kmax)));
+
+try
+    x = load(fullfile(varPath, strcat('xMBGSample',num2str(kmax))));
     x = x.x;
-    TT = load(strcat('TTMBGTailProb',num2str(kmax)));
+    TT = load(fullfile(varPath, strcat('TTMBGTailProb',num2str(kmax))));
     TT = TT.TT;
 catch
     x = zeros(kmax,D); %sample to be generated
@@ -80,9 +82,9 @@ catch
         end
         fprintf('n=%d\n',n-Nmin+1)
     end
-    
-    save(strcat('xMBGSample',num2str(kmax)),'x')
-    save(strcat('TTMBGTailProb',num2str(kmax)),'TT')
+
+    save(fullfile(varPath, strcat('xMBGSample',num2str(kmax))), 'x')
+    save(fullfile(varPath, strcat('TTMBGTailProb',num2str(kmax))), 'TT')
 end
 
 %% Tails 
@@ -126,6 +128,8 @@ end
 C = C_AH(param(1:end-1),D,eps); C = C*C;
 fprintf('g0 = [%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,...\n      %.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,...\n      %.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,...\n      %.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,...\n      %.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f];\nzeta0 = %.4f;\n', param)
 %% Visualization
+
+vizPath = getPath('Visualization');
 % figure
 % hold on
 % box on
@@ -135,10 +139,9 @@ fprintf('g0 = [%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,...\n     
 % plot(d,mu_mod(:,2))
 % legend('$RC^U$','$RC^L$','$\mu$','interpreter','latex')
 % set(gca,'TickLabelInterpreter','latex')
-% fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 % str=strcat('SPY_RCvsMktReturn_DigitalMoments');
 % fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% saveas(gcf, fullfile(vizPath, fname), 'epsc');
 % hold off
 
 

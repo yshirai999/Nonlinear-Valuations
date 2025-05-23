@@ -4,7 +4,8 @@ clc
 close all
 
 %% Load Data
-Y = load('Y');
+dataPath = getPath('Data');
+Y = load(fullfile(dataPath, 'Y'));
 Y = Y.Y;
 
 SY = 10; startdate = strcat('20',num2str(SY,'%02.f'),'0104');
@@ -49,12 +50,13 @@ ai = 0.001;
 
 %(c,gamma,b,a) = (3.642385e+02,9.094947e-13,1.191809e+02,1.445863e-03)
 
+varPath = getPath('VarArchive');
 try
-    SPYMD = load(strcat('SPYMD',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))); SPYMD = SPYMD.SPYMD;
-    RC = load(strcat('RC',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))); RC = RC.RC;
-    mu_mod = load(strcat('mu_modGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))); mu_mod = mu_mod.mu_mod;
-    mu_mkt = load(strcat('mu_mkt',num2str(SY),num2str(Delta),num2str(N))); mu_mkt = mu_mkt.mu_mkt;
-    err = load(strcat('errGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))); err = err.err;
+    SPYMD = load(fullfile(varPath,strcat('SPYMD',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)))); SPYMD = SPYMD.SPYMD;
+    RC = load(fullfile(varPath,strcat('RC',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)))); RC = RC.RC;
+    mu_mod = load(fullfile(varPath,strcat('mu_modGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)))); mu_mod = mu_mod.mu_mod;
+    mu_mkt = load(fullfile(varPath,strcat('mu_mkt',num2str(SY),num2str(Delta),num2str(N)))); mu_mkt = mu_mkt.mu_mkt;
+    err = load(fullfile(varPath,strcat('errGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)))); err = err.err;
 
     for i = imax
         ind = [Delta:Delta:N];
@@ -168,6 +170,7 @@ RCDelta = RCDelta - mean(RCDelta);
 fprintf('Augmented Dickey-Fueller Test Rejects Delta GMM Drivers Stationarity: %d\n', adftest(RCDelta))
 
 %% Visualization
+vizPath = getPath('Visualization');
 d = datetime(d,'ConvertFrom','yyyymmdd'); 
 if SY == 8 
     d = d(2:end);
@@ -181,10 +184,9 @@ plot(d,RC(:,1),'-')
 plot(d,RC(:,2),'--')
 legend('Upper','Lower','interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('SPY_RCvsMktReturn_GMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb));
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 figure
@@ -194,15 +196,10 @@ grid on
 plot(d,RC(:,1)-RC(:,2),'-')
 title('Difference between upper and lower GMM drivers','interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('SPY_RCvsMktReturn_GMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb));
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
-
-
-
-
 
 
 
@@ -219,10 +216,9 @@ Gm = (b/c)*(1-exp(-c*xx));
 % plot(xx,Gm)
 % legend('$\Gamma_-$','interpreter','latex')
 % set(gca,'TickLabelInterpreter','latex')
-% fpath=('C:\Users\Yoshihiro Shirai\Desktop\Spectral Martingale Measures');
 % str=strcat('MeasureDistortionsGMMm',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb));
 % fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% saveas(gcf, fullfile(vizPath, fname), 'epsc');
 % hold off
 % 
 % figure
@@ -232,10 +228,9 @@ Gm = (b/c)*(1-exp(-c*xx));
 % plot(xx,Gp)
 % legend('$\Gamma_+$','interpreter','latex')
 % set(gca,'TickLabelInterpreter','latex')
-% fpath=('C:\Users\Yoshihiro Shirai\Desktop\Spectral Martingale Measures');
 % str=strcat('MeasureDistortionsGMMp',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb));
 % fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% saveas(gcf, fullfile(vizPath, fname), 'epsc');
 % hold off
 
 figure
@@ -246,10 +241,9 @@ plot(xx,Gp,'-')
 plot(xx,Gm,'--')
 legend('$\Lambda_+$','$\Lambda_-$','interpreter','latex')
 set(gca,'TickLabelInterpreter','latex','yscale','log')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('MeasureDistortionsGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb));
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 corrRC_mu_U = zeros(length(SPYMD)-50,1);
@@ -266,10 +260,9 @@ grid on
 plot(d(50+1:end),corrRC_mu_U,'-')
 plot(d(50+1:end),corrRC_mu_L,'--')
 legend('Upper','Lower','interpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('CorrGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb));
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 quant = [0,0.25,0.5,0.75,1];
@@ -285,10 +278,9 @@ box on
 grid on
 plot(d(50+1:end),corrRC_mu_U-corrRC_mu_L,'-')
 title('Difference between upper and lower GMM correlations','interpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('CorrGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb));
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 %fprintf('corr_u = %d, corr_l = %d\n', corr(mu_mod(:,1),mu_mkt(:,1)), corr(mu_mod(:,3),mu_mkt(:,3)));
@@ -310,11 +302,11 @@ if strcmp(s,'Y')
     prompt = 'Warning: data will be saved and previous one overwritten. Input Y to continue: ';
     s = input(prompt, 's');
     if strcmp(s,'Y')
-        save(strcat('SPYMD',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)),'SPYMD');
-        save(strcat('RC',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)),'RC');
-        save(strcat('mu_modGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)),'mu_mod');
-        %save(strcat('mu_mktGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)),'mu_mkt');
-        save(strcat('ErrGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)),'err');
+        save(fullfile(varPath,strcat('SPYMD',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))),'SPYMD');
+        save(fullfile(varPath,strcat('RC',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))),'RC');
+        save(fullfile(varPath,strcat('mu_modGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))),'mu_mod');
+        %save(fullfile(varPath,strcat('mu_mktGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))),'mu_mkt');
+        save(fullfile(varPath,strcat('ErrGMM',num2str(SY),num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))),'err');
     end
 end
 
@@ -443,11 +435,10 @@ function [] = plotU(u,theta,N,yp,yn)
     plot(x,f);
     title('Upper Density')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\Yoshihiro Shirai\Desktop\Spectral Martingale Measures');
     str=strcat('SPY_UpperDensity');
     fname=str;
-    %saveas(gcf, fullfile(fpath, fname), 'epsc');
-    
+    %saveas(gcf, fullfile(vizPath, fname), 'epsc');
+
     f = [0,max(interp1(x,f,s),0)]; ds = [s(2)-s(1),s(2:end)-s(1:end-1)];
     Pihat = cumsum( (f(2:end)+f(1:end-1)) .* ds ) / 2;
     Pihat(s>0) = 1-Pihat(s>0);
@@ -461,10 +452,9 @@ function [] = plotU(u,theta,N,yp,yn)
     legend('Estimated', 'Empirical','interpreter','latex')
     title('Upper Digital Moments Fitting')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
     str=strcat('SPY_UpperGMMFitting');
     fname=str;
-    saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'epsc');
 end
 
 function [] = plotL(l,theta,N,yp,yn)
@@ -501,12 +491,11 @@ function [] = plotL(l,theta,N,yp,yn)
     plot(x,f);
     title('Lower Density')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\Yoshihiro Shirai\Desktop\Spectral Martingale Measures');
     str=strcat('SPY_LowerDensity');
     fname=str;
-    %saveas(gcf, fullfile(fpath, fname), 'epsc');
-    
-    f = [0,max(interp1(x,f,s),0)]; ds = [s(2)-s(1),s(2:end)-s(1:end-1)];     
+    %saveas(gcf, fullfile(vizPath, fname), 'epsc');
+
+    f = [0,max(interp1(x,f,s),0)]; ds = [s(2)-s(1),s(2:end)-s(1:end-1)];
     Pihat = cumsum( (f(2:end)+f(1:end-1)) .* ds ) / 2;
 %     figure
 %     plot(s,Pihat)
@@ -521,8 +510,7 @@ function [] = plotL(l,theta,N,yp,yn)
     legend('Estimated', 'Empirical','interpreter','latex')
     title('Lower Digital Moments Fitting')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
     str=strcat('SPY_LowerGMMFitting');
     fname=str;
-    saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'pdf');
 end

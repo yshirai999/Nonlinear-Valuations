@@ -62,14 +62,7 @@ SECID = cell2mat(SECID);
 
 %% GetData
 
-% Construct the path to the Data folder
-[parentFolder, ~, ~] = fileparts(pwd); % Get the parent folder of the current folder
-dataFolder = fullfile(parentFolder, 'Data'); % Path to the Data folder
-
-% Create the Data folder if it doesn't exist
-if ~exist(dataFolder, 'dir')
-    mkdir(dataFolder);
-end
+dataFolder = getPath('Data'); % Get the path to the Data folder
 
 for j=1:9
     P = [];

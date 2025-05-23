@@ -103,10 +103,10 @@ xlabel('$\varpi$', 'Interpreter', 'latex')
 grid on
 box on
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\Spectral Martingale Measures');
+visPath = getPath('Visualization'); % Get the path to the Visualization folder
 str=strcat('DRoS',BGParam);
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(visPath, fname), 'pdf');
 hold off
 
 for i = 1:N-1

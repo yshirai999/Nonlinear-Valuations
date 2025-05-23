@@ -4,7 +4,7 @@ clc
 close all
 
 %% Load Data
-DataPath = NonlinearPricing.Functions.getPath('Data');
+DataPath = getPath('Data');
 
 Y = load(fullfile(DataPath, 'Y'));
 Y = Y.Y;
@@ -47,7 +47,7 @@ ai = 0.001;
 
 %(c,gamma,b,a) = (3.642385e+02,9.094947e-13,1.191809e+02,1.445863e-03)
 
-VarPath = NonlinearPricing.Functions.getPath('VarArchive');
+VarPath = getPath('VarArchive');
 
 SPYMDGMM = load(fullfile(VarPath, strcat('SPYMD',num2str(SY),'GMM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)))); SPYMDGMM = SPYMDGMM.SPYMD;
 SPYMDDM = load(fullfile(VarPath, strcat('SPYMD',num2str(SY),'DM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N)))); SPYMDDM = SPYMDDM.SPYMD;
@@ -187,7 +187,7 @@ for i=1:2^4
     fprintf('%3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f \\\\ \n', MDQDM(i,:), MDQGMM(i,:))
 end
 
-[MDQ, rep, ~] = NonlinearPricing.Functions.vqsplit([muDM_u_out;muDM_out;muDM_l_out;muGMM_u_out;muGMM_out;muGMM_l_out],2^4);
+[MDQ, rep, ~] = vqsplit([muDM_u_out;muDM_out;muDM_l_out;muGMM_u_out;muGMM_out;muGMM_l_out],2^4);
 MDQ = 100*MDQ'*252/Delta;
 
 fprintf('\nmu quantized \n')
@@ -199,7 +199,7 @@ end
 %% Quantize Parameters
 ParamQ = rmoutliers(theta(2:end,:),'percentiles',[q,100-q]);
 size(ParamQ)
-[ParamQ, ~, ~] = NonlinearPricing.Functions.vqsplit(ParamQ',2^4);
+[ParamQ, ~, ~] = vqsplit(ParamQ',2^4);
 ParamQ = ParamQ';
 fprintf('mu quantized \n')
 for i=1:2^4
@@ -208,7 +208,7 @@ end
 
 %% Visualization
 
-VizPath = NonlinearPricing.Functions.getPath('Visualization');
+VizPath = getPath('Visualization');
 
 dates = datenum(num2str(Y(imin+5:5:imax,1)),'yyyymmdd');
 dates = datetime(dates,'ConvertFrom','datenum');

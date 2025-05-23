@@ -13,6 +13,7 @@ mu_mkt = load(strcat('mu_mkt',num2str(SY)));
 
 
 %% Visualization
+vizPath = getPath('Visualization');
 mu_mod = mu_mod.mu_mod;
 mu_mkt = mu_mkt.mu_mkt;
 d = d.d;
@@ -27,10 +28,9 @@ plot(d,RC(:,2))
 plot(d,mu_mkt(:,2))
 legend('$RC^U$','$RC^L$','$\mu^Y$','interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('SPY_RCvsMktReturn_DM');
 fname=str;
-%saveas(gcf, fullfile(fpath, fname), 'epsc');
+%saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 % figure
@@ -42,10 +42,9 @@ hold off
 % plot(d,mu_mod(:,2))
 % legend('$RC^U$','$RC^L$','$\mu$','interpreter','latex')
 % set(gca,'TickLabelInterpreter','latex')
-% fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 % str=strcat('SPY_RCvsModReturn_DM');
 % fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% saveas(gcf, fullfile(vizPath, fname), 'epsc');
 % hold off
 % 
 % figure
@@ -58,10 +57,9 @@ hold off
 % plot(d,mu_mod(:,2))
 % legend('$RC^U$','$RC^L$','$\mu$ (market)','$\mu$ (model)','interpreter','latex')
 % set(gca,'TickLabelInterpreter','latex')
-% fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 % str=strcat('SPY_RCvsMktModReturn_DM');
 % fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% saveas(gcf, fullfile(vizPath, fname), 'epsc');
 % hold off
 
 fprintf('DM, 2008-2020: corr_u_mkt = %d, corr_l_mkt = %d\n', corr(RC(:,1),mu_mkt(:,2)), corr(RC(:,2),mu_mkt(:,2)));
@@ -82,10 +80,9 @@ plot(d,RC(:,2))
 plot(d,mu_mkt(:,2))
 legend('$RC^U$','$RC^L$','$\mu^Y$','interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('SPY_RCvsMktReturn_GMM');
 fname=str;
-%saveas(gcf, fullfile(fpath, fname), 'epsc');
+%saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 % figure
@@ -97,10 +94,9 @@ hold off
 % plot(d,mu_mod(:,2))
 % legend('$RC^U$','$RC^L$','$\mu$','interpreter','latex')
 % set(gca,'TickLabelInterpreter','latex')
-% fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 % str=strcat('SPY_RCvsModReturn_GMM');
 % fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% saveas(gcf, fullfile(vizPath, fname), 'epsc');
 % hold off
 % 
 % figure
@@ -113,10 +109,9 @@ hold off
 % plot(d,mu_mod(:,2))
 % legend('$RC^U$','$RC^L$','$\mu$ (market)','$\mu$ (model)','interpreter','latex')
 % set(gca,'TickLabelInterpreter','latex')
-% fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 % str=strcat('SPY_RCvsMktModReturn_GMM');
 % fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% saveas(gcf, fullfile(vizPath, fname), 'epsc');
 % hold off
 
 fprintf('GMM, 2008-2020: corr_u_mkt = %d, corr_l_mkt = %d\n', corr(RC(:,1),mu_mkt(:,2)), corr(RC(:,2),mu_mkt(:,2)));

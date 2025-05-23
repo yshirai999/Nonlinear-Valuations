@@ -4,11 +4,15 @@ close all
 clc
 
 %% Load and Visualize
-XX = load('MonetaryBase.mat');
+path = getPath('Data');
+varPath = getPath('VarArchive');
+
+XX = load(fullfile(path, 'MonetaryBase.mat'));
 XX = XX.XX;
 dates = XX.BOGMBASE;
 M = XX.MonetaryBaseTotalMillionsOfDollarsMonthlyNotSeasonallyAdjusted;
 
+visPath = getPath('Visualization');
 figure
 hold on
 box on
@@ -16,12 +20,11 @@ grid on
 plot(dates,M)
 title('Total Monetary Base (Source: FRED)','interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('MonetaryBase');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(visPath, fname), 'pdf');
 
-Y = load('Y');
+Y = load(fullfile(path, 'Y'));
 Y = Y.Y;
 SY = 10; startdate = strcat('20',num2str(SY,'%02.f'),'0105');
 SD = str2double(startdate);
@@ -29,7 +32,8 @@ N = 250;
 enforcegamma = 1;
 enforceb = 1;
 Delta = 5;
-RC = load(strcat('RC',num2str(SY),'DM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))); RC = RC.RC;
+RC = load(fullfile(varPath, strcat('RC',num2str(SY),'DM',num2str(Delta),num2str(enforcegamma),num2str(enforceb),num2str(N))));
+RC = RC.RC;
 imin = find(Y(:,1)==SD);
 imax = length(Y);
 d = Y(imin:Delta:imax,1);
@@ -76,10 +80,9 @@ filler3 = fill(x,y,'r','FaceAlpha',.3);
 legend({'$\Delta$ Drivers', 'M','QE'},'Interpreter','latex','location','north')
 set(gca,'TickLabelInterpreter','latex')
 set(gca, 'LooseInset', get(gca,'TightInset'))
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('MonetaryBase');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(visPath, fname), 'pdf');
 
 %%
 TrailingPer = 20;
@@ -93,4 +96,4 @@ end
 % grid on
 % plot(dates(TrailingPer+1:134),rho)
 %% Save
-save("MonetaryBase","XX")
+%save(fullfile(path, "MonetaryBase"), "XX");

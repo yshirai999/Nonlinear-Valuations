@@ -53,12 +53,15 @@ for jj = 1:length(ticker)
 end
 
 %% SPY
-Y = load(strcat('Y','SPY'));
+dataPath = getPath('Data');
+Y = load(fullfile(dataPath, 'Y','SPY.mat'));
 Y = Y.Y;
 d = datetime(Y(:,1),'ConvertFrom','yyyymmdd'); 
 if SY == 8 
     d = d(2:end);
 end
+
+vizPath = getPath('Visualization');
 figure
 hold on
 box on
@@ -66,10 +69,9 @@ grid on
 plot(d(505:end),Y(505:end,2))
 title('SPY','interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\Spectral Martingale Measures');
 str=strcat('SPY');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 %% Routines

@@ -143,14 +143,7 @@ ColumnNames = [ColumnNames,{'Time to Maturity'}];
 rs.close();
 WRDS.close();
 
-% Construct the path to the Data folder
-[parentFolder, ~, ~] = fileparts(pwd); % Get the parent folder of the current folder
-dataFolder = fullfile(parentFolder, 'Data'); % Path to the Data folder
-
-% Check if the Data folder exists, if not, create it
-if ~exist(dataFolder, 'dir')
-    mkdir(dataFolder);
-end
+dataFolder = getPath('Data'); % Get the path to the Data folder
 
 % Save the file in the Data folder
 save(fullfile(dataFolder, strcat('SPY_',cpflag,'_T1M_MONEY',num2str(m),'_2020')),'O');

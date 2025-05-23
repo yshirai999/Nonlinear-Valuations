@@ -4,7 +4,8 @@ clc
 close all
 
 %% Load Data
-Y = load('Y');
+dataPath = getPath('Data');
+Y = load(fullfile(dataPath, 'Y'));
 Y = Y.Y;
 
 rng('default'); rng(1);
@@ -114,10 +115,11 @@ d = datetime(Y(imin:1:imax,1),'ConvertFrom','yyyymmdd');
 % hold off
 
 %% Save
+varPath = getPath('VarArchive');
 % SPYMD = abs(theta(:,1:2));
 SPYBG = abs(theta(:,3:6));
-%save(strcat('SPYBG',num2str(SY),'DM'),'SPYBG');
-%save(strcat('SPYMD',num2str(SY),'LS'),'SPYMD');
+%save(fullfile(varPath, strcat('SPYBG',num2str(SY),'DM')), 'SPYBG');
+%save(fullfile(varPath, strcat('SPYMD',num2str(SY),'LS')), 'SPYMD');
 
 %% Routines
 

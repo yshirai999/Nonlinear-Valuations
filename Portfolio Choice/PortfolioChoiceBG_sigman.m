@@ -116,6 +116,8 @@ end
 
 %% Visualization
 
+vizPath = getPath('Visualization');
+
 if vis == 1
     
     figure
@@ -126,10 +128,9 @@ if vis == 1
     ylabel('$\theta_*(\mu_1/\sigma_1)$', 'Interpreter', 'latex')
     xlabel('$\mu_1/\sigma_1$', 'Interpreter', 'latex')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
     str=strcat('OptimalControlBGsigmn_Sharpe',Ej);
     fname=str;
-    saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'pdf');
     hold off
     
     figure
@@ -140,10 +141,9 @@ if vis == 1
     ylabel('$\theta_*(\sigma_{n1})$', 'Interpreter', 'latex')
     xlabel('$\sigma_{n1}$', 'Interpreter', 'latex')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
     str=strcat('OptimalControlBGsigman_sigman',Ej);
     fname=str;
-    saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'pdf');
     hold off
 end 
 

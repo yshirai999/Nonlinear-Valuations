@@ -115,6 +115,8 @@ end
 
 %% Visualization
 
+vizPath = getPath('Visualization');
+
 if vis == 1    
     figure
     hold on
@@ -124,10 +126,9 @@ if vis == 1
     ylabel('$\theta_*(\mu_{p1})$', 'Interpreter', 'latex')
     xlabel('$\mu_{p1}$', 'Interpreter', 'latex')
     set(gca,'TickLabelInterpreter','latex')
-    fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
     str=strcat('OptimalControlBGmup_mup',Ej);
     fname=str;
-    saveas(gcf, fullfile(fpath, fname), 'epsc');
+    saveas(gcf, fullfile(vizPath, fname), 'pdf');
     hold off
 end 
 

@@ -11,13 +11,13 @@ ticker = {'SPY', 'VIX', 'XLB', 'XLE', 'XLF', 'XLI', 'XLK', 'XLP', 'XLU', 'XLV', 
 ETF = matlab.lang.makeValidName(ticker);
 D = length(ticker);
 
+dataPath = getPath('Data');
+
 for d=1:D
-
-Y = load(strcat('Y',ticker{d},'.mat'));
-Y = Y.Y;
-ind = (Y(:,1)>20151231);
-eval([ETF{d} ' = Y(ind,2:end);']);
-
+    Y = load(fullfile(dataPath,strcat('Y',ticker{d},'.mat')));
+    Y = Y.Y;
+    ind = (Y(:,1)>20151231);
+    eval([ETF{d} ' = Y(ind,2:end);']);
 end
 
 dates = datetime(Y(ind,1),'ConvertFrom','yyyymmdd');
@@ -133,6 +133,8 @@ catch
 end
 %% Visualization
 
+vizPath = getPath('Visualization');
+
 close all
 
 r_p = zeros(N,1);
@@ -213,10 +215,9 @@ box on
 plot(dates(per:N-1),Sharpe_p(per:N-1,1)-Sharpe_SPY(per:N-1,1))
 %plot(dates(2*252:N-1),(mup(2*252:N-1,1)-mun(2*252:N-1,1))./sqrt(sigmap(2*252:N-1,1).^2+sigman(2*252:N-1,1).^2))
 title('Annualized Daily Sharpe Ratio')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('AnnualSharpeBG');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 hold off
 
 figure 
@@ -228,10 +229,9 @@ plot(dates(per:N-1),Sortino_SPY(per:N-1,1))
 %plot(dates(2*252:N-1),(mup(2*252:N-1,1)-mun(2*252:N-1,1))./sqrt(sigmap(2*252:N-1,1).^2+sigman(2*252:N-1,1).^2))
 legend('Portfolio','SPY')
 title('Annualized Daily Sortino Ratio')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('AnnualSortinoBG');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 hold off
 
 figure 
@@ -242,18 +242,19 @@ plot(dates(per:N-1),r_pmon(per:N-1))
 plot(dates(per:N-1),r_SPYmon(per:N-1))
 legend('Portfolio','SPY')
 title('Daily Returns')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('AnnualReturnBG');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'pdf');
 hold off
 
 %% Save
 
-save(strcat('thetaBG',thetai0),'theta')
+varPath = getPath('VarArchive');
+
+save(fullfile(varPath,strcat('thetaBG',thetai0)), 'theta')
 
 DeltaS = Sharpe_p(per:N-1,1)-Sharpe_SPY(per:N-1,1);
-save('DeltaBG','DeltaS')
+save(fullfile(varPath,'DeltaBG'),'DeltaS');
 
 %% Routines
 

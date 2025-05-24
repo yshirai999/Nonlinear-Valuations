@@ -1,15 +1,17 @@
 %% Correlation
 
-%clear
-%clc
-%close all
+clear
+clc
+close all
 
 %% Load data
 
-YPD = load('ConvexPCthetaPD_2020');
-YCARA = load('ConvexPCthetaCARA_2020');
-YCRRA = load('ConvexPCthetaCRRA_2020');
-YMD = load('ConvexPCthetaMD_2020');
+varPath = getPath('VarArchive');
+
+YPD = load(fullfile(varPath, 'ConvexPCthetaPD_2020'));
+YCARA = load(fullfile(varPath, 'ConvexPCthetaCARA_2020'));
+YCRRA = load(fullfile(varPath, 'ConvexPCthetaCRRA_2020'));
+YMD = load(fullfile(varPath, 'ConvexPCthetaMD_2020'));
 
 YPD = YPD.theta;
 YMD = YMD.theta;

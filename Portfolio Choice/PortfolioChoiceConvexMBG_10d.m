@@ -15,20 +15,19 @@ ticker = {'SPY', 'XLB', 'XLE', 'XLF', 'XLI', 'XLK', 'XLP', 'XLU', 'XLV', 'XLY'};
 ETF = matlab.lang.makeValidName(ticker);
 D = length(ticker);
 
+dataPath = getPath('Data');
 for d=1:D
-
-Y = load(strcat('Y',ticker{d},'.mat'));
-Y = Y.Y;
-ind = logical((Y(:,1)>20160101).*(Y(:,1)<20201231));
-J = length(ind);
-for j = 1:J
-    if mod(j,10) > 0
-        ind(j) = logical(0);
+    Y = load(fullfile(dataPath, strcat('Y',ticker{d},'.mat')));
+    Y = Y.Y;
+    ind = logical((Y(:,1)>20160101).*(Y(:,1)<20201231));
+    J = length(ind);
+    for j = 1:J
+        if mod(j,10) > 0
+            ind(j) = logical(0);
+        end
     end
-end
-%ind = ind(1:10:end);
-eval([ETF{d} ' = Y(ind,2:end);']);
-
+    %ind = ind(1:10:end);
+    eval([ETF{d} ' = Y(ind,2:end);']);
 end
 
 datesnum = Y(ind,1);
@@ -94,6 +93,9 @@ T = 1;
 
 %% Maximization
 
+% Initial Portfolio Amount
+varPath = getPath('Variables');
+
 theta = zeros(N,D);
 P = zeros(N,1);
 r_p = zeros(N,1);
@@ -110,9 +112,9 @@ thetai = [ones(D-1,1)/D];
 Pi = 2500000;
 
 try
-    r = load(strcat('ConvexMBG_20162020',thetai0,'_r',LongShort,'.mat'));
-    theta = load(strcat('ConvexMBG_20162020',thetai0,'_theta',LongShort,'.mat'));
-    P = load(strcat('ConvexMBG_20162020',thetai0,'_P',LongShort,'.mat'));
+    r = load(fullfile(varPath, strcat('ConvexMBG_20162020',thetai0,'_r',LongShort,'.mat')));
+    theta = load(fullfile(varPath, strcat('ConvexMBG_20162020',thetai0,'_theta',LongShort,'.mat')));
+    P = load(fullfile(varPath, strcat('ConvexMBG_20162020',thetai0,'_P',LongShort,'.mat')));
     r = r.r;
     theta = theta.theta;
     P = P.P;
@@ -213,6 +215,8 @@ end
 
 %% Visualization
 
+vizPath = getPath('Visualization');
+
 r_p = zeros(N,1);
 r_SPY = zeros(N,1);
 
@@ -275,14 +279,9 @@ box on
 grid on
 plot(dates,P)
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('ConvexMBG20162020_P',LongShort);
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\Spectral Martingale Measures');
-saveas(gcf, fullfile(fpath, fname), 'epsc');
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Dissertation\Dissertation');
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 figure
@@ -293,14 +292,9 @@ plot(dates,cumsum(r_p),'-')
 plot(dates,cumsum(r_SPY),'-.')
 legend('Portfolio','SPY','interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('ConvexMBG20162020_r',LongShort);
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\Spectral Martingale Measures');
-saveas(gcf, fullfile(fpath, fname), 'epsc');
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Dissertation\Dissertation');
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 figure
@@ -310,14 +304,9 @@ grid on
 plot(dates,Y(:,1))
 legend('SPY','interpreter','latex')
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('SPY_20162020');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\Spectral Martingale Measures');
-saveas(gcf, fullfile(fpath, fname), 'epsc');
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Dissertation\Dissertation');
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 Nmin = 1;
@@ -339,9 +328,9 @@ if strcmp(s,'Y')
     s = input(prompt, 's');
     if strcmp(s,'Y')
         r = [r_p,r_SPY];
-        save(strcat('ConvexMBG_20162020',thetai0,'_theta',LongShort),'theta')
-        save(strcat('ConvexMBG_20162020',thetai0,'_P',LongShort),'P')
-        save(strcat('ConvexMBG_20162020',thetai0,'_r',LongShort),'r')
+        save(fullfile(varPath, strcat('ConvexMBG_20162020',thetai0,'_theta',LongShort)), 'theta')
+        save(fullfile(varPath, strcat('ConvexMBG_20162020',thetai0,'_P',LongShort)), 'P')
+        save(fullfile(varPath, strcat('ConvexMBG_20162020',thetai0,'_r',LongShort)), 'r')
     end
 end
 

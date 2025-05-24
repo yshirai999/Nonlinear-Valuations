@@ -13,11 +13,11 @@ ETF = matlab.lang.makeValidName(ticker);
 D = length(ticker);
 
 for d=1:D
-    Y = load(strcat('Y',ticker{d},'.mat'));
+    dataPath = getPath('Data');
+    Y = load(fullfile(dataPath, strcat('Y',ticker{d},'.mat')));
     Y = Y.Y;
     ind = (Y(:,1)>20151231);
     eval([ETF{d} ' = Y(ind,2:end);']);
-
 end
 
 datesnum = Y(ind,1);
@@ -44,6 +44,8 @@ eps = [2];
 M = length(eps);
 
 %% Maximization
+
+vizPath = getPath('Visualization');
 
 P = 100;
 p_l = 10;
@@ -94,15 +96,14 @@ legend = legend(leg,'interpreter','latex','location','best');
 grid on
 box on
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('ConvexPortfolioChoiceCARA_2020');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 %% Save
-
-save('ConvexPCthetaCARA_2020','theta')
+varPath = getPath('VarArchive');
+save(fullfile(varPath, 'ConvexPCthetaCARA_2020'),'theta');
 
 %% Routines
 

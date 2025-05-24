@@ -50,6 +50,8 @@ M = length(chi);
 
 %% Maximization
 
+vizPath = getPath('Visualization');
+
 gammaplot = linspace(gammal*1.001,gammau*0.999,50);
 
 P = 100;
@@ -116,15 +118,14 @@ legend = legend(leg,'interpreter','latex','location','best');
 grid on
 box on
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('ConvexPortfolioChoicePD_2020');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 %% Save
-
-save('ConvexPCthetaPD_2020','theta')
+varPath = getPath('VarArchive');
+save(fullfile(varPath, 'ConvexPCthetaPD_2020'),'theta')
 
 %% Routines
 

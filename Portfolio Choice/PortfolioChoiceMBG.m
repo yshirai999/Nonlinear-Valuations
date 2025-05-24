@@ -14,13 +14,13 @@ ticker = {'SPY', 'XLB', 'XLE', 'XLF', 'XLI', 'XLK', 'XLP', 'XLU', 'XLV', 'XLY'};
 ETF = matlab.lang.makeValidName(ticker);
 D = length(ticker);
 
+dataPath = getPath('Data');
+
 for d=1:D
-
-Y = load(strcat('Y',ticker{d},'.mat'));
-Y = Y.Y;
-ind = (Y(:,1)>20151231);
-eval([ETF{d} ' = Y(ind,2:end);']);
-
+    Y = load(fullfile(dataPath, strcat('Y',ticker{d},'.mat')));
+    Y = Y.Y;
+    ind = (Y(:,1)>20151231);
+    eval([ETF{d} ' = Y(ind,2:end);']);
 end
 
 datesnum = Y(ind,1);
@@ -78,6 +78,8 @@ aw = 1000;
 bw = 0.1;
 
 %% Maximization
+
+varPath = getPath('VarArchive');
 
 theta = zeros(N,D);
 r_p = zeros(N,1);
@@ -217,6 +219,8 @@ catch
 end
 %% Visualization
 
+vizPath = getPath('VizArchive');
+
 r_p = zeros(N,1);
 r_SPY = zeros(N,1);
 
@@ -275,10 +279,9 @@ grid on
 box on
 plot(dates(per:N-1),Sharpe_p(per:N-1,1)-Sharpe_SPY(per:N-1,1))
 %plot(dates(2*252:N-1),(mup(2*252:N-1,1)-mun(2*252:N-1,1))./sqrt(sigmap(2*252:N-1,1).^2+sigman(2*252:N-1,1).^2))
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('AnnualSharpeMBGDelta');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 figure 
@@ -289,10 +292,9 @@ plot(dates(per:N-1),Sharpe_p(per:N-1,1))
 plot(dates(per:N-1),Sharpe_SPY(per:N-1,1))
 %plot(dates(2*252:N-1),(mup(2*252:N-1,1)-mun(2*252:N-1,1))./sqrt(sigmap(2*252:N-1,1).^2+sigman(2*252:N-1,1).^2))
 legend('Portfolio','SPY')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('AnnualSharpeMBG');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 figure 
@@ -302,10 +304,9 @@ box on
 plot(dates(per:N-1),Sharpe_p(per:N-1,1)-Sharpe_SPY(per:N-1,1))
 plot(dates(per:N-1),DeltaBG)
 legend('MBG','BG')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('AnnualSharpeMBGBG');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 figure 
@@ -316,18 +317,17 @@ plot(dates(per:N-1),r_pmon(per:N-1),'LineWidth', 2)
 plot(dates(per:N-1),r_SPYmon(per:N-1),'-.','LineWidth', 0.5)
 legend('Portfolio','SPY')
 title('Daily Returns')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('AnnualReturnMBG');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 %% Save
 
-save(strcat('thetaMBG',thetai0),'theta')
+save(fullfile(varPath, strcat('thetaMBG',thetai0)), 'theta')
 
 DeltaS = Sharpe_p(per:N-1,1)-Sharpe_SPY(per:N-1,1);
-save(strcat('DeltaBG',thetai0),'DeltaS')
+save(fullfile(varPath, strcat('DeltaBG',thetai0)), 'DeltaS')
 
 %% Routines
 

@@ -42,6 +42,8 @@ set(gca,'TickLabelInterpreter','latex')
 
 %% Maximization
 
+vizPath = getPath('Visualization');
+
 N = 100;
 p_l = 10;
 p_u = 1000;
@@ -93,10 +95,9 @@ xlabel('$\theta$', 'Interpreter', 'latex')
 grid on
 box on
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\Spectral Martingale Measures');
 str=strcat('ConvexPortfolioChoicePD');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 %% Routines

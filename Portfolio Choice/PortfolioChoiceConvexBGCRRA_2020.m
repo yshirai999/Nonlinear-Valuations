@@ -12,12 +12,13 @@ ticker = {'SPY'};
 ETF = matlab.lang.makeValidName(ticker);
 D = length(ticker);
 
+dataPath = getPath('Data');
+
 for d=1:D
-    Y = load(strcat('Y',ticker{d},'.mat'));
+    Y = load(fullfile(dataPath, strcat('Y',ticker{d},'.mat')));
     Y = Y.Y;
     ind = (Y(:,1)>20151231);
     eval([ETF{d} ' = Y(ind,2:end);']);
-
 end
 
 datesnum = Y(ind,1);
@@ -44,6 +45,8 @@ eps = [5];
 M = length(eps);
 
 %% Maximization
+
+vizPath = getPath('Visualization');
 
 P = 100;
 p_l = 10;
@@ -94,15 +97,14 @@ legend = legend(leg,'interpreter','latex','location','best');
 grid on
 box on
 set(gca,'TickLabelInterpreter','latex')
-fpath=('C:\Users\Yoshihiro Shirai\Desktop\PhD\Research\CDXO Nonlinear Valuation');
 str=strcat('ConvexPortfolioChoiceCRRA_2020');
 fname=str;
-saveas(gcf, fullfile(fpath, fname), 'epsc');
+saveas(gcf, fullfile(vizPath, fname), 'epsc');
 hold off
 
 %% Save
-
-save('ConvexPCthetaCRRA_2020','theta')
+varPath = getPath('VarArchive');
+save(fullfile(varPath, 'ConvexPCthetaCRRA_2020'),'theta')
 
 %% Routines
 

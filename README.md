@@ -27,7 +27,7 @@ For all the mathematical details, as well as the calibration and estimation part
 
 - All the calibration and estimation scripts are based on data that must be in the Data folder
 
-- Daily d COB ata on Bilateral Gamma parameters is available for the period 01/02/2008 to 12/31/2020 and in the four struct files BGP1-BGP4.mat for several assets and indexes
+- Daily COB data on Bilateral Gamma parameters is available for the period 01/02/2008 to 12/31/2020 and in the four struct files BGP1-BGP4.mat for several assets and indexes
 
 - Data on options on SPY and ETFs can be downloaded from WRDS using the respective functions in the DataProcessing folder
   - These functions will prompt the user to input  WRDS username and password before the download begins

@@ -23,6 +23,16 @@
 
 For all the mathematical details, as well as the calibration and estimation part, see the accompanying paper [Continuous Time Conic Finance](https://www.aimsciences.org/article/doi/10.3934/fmf.2023021)
 
+## About the Author
+
+**Yoshihiro Shirai** is a Pearson Fellow at the University of Washington with expertise in applied mathematics, quantitative modeling, and macro strategy research.
+
+- 🔗 [LinkedIn](https://www.linkedin.com/in/yoshihiro-shirai/)
+- 📖 [Google Scholar](https://scholar.google.com/citations?user=...)
+- 💻 [GitHub](https://github.com/yshirai999)
+- 🌐 [Personal Website](https://www.yoshihiroshirai.com)
+
+
 ## Data
 
 - All the calibration and estimation scripts are based on data that must be in the Data folder
